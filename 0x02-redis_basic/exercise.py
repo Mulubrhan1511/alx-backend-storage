@@ -2,9 +2,10 @@
 """
 Main file
 """
-import redis
-import uuid
 from typing import Callable, Optional, Union
+from uuid import uuid4
+import redis
+from functools import wraps
 
 
 class Cache:
@@ -34,19 +35,16 @@ class Cache:
 
 
 def count_calls(method: Callable) -> Callable:
-    import functools
+    '''
+        Counts the number of times a method is called.
+    '''
 
-    @functools.wraps(method)
+    @wraps(method)
     def wrapper(self, *args, **kwargs):
+        '''
+            Wrapper function.
+        '''
         key = method.__qualname__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
-
     return wrapper
-
-
-@count_calls
-def store(self, data):
-    key = str(uuid.uuid4())
-    self._redis.set(key, data)
-    return key
