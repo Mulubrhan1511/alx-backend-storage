@@ -31,6 +31,8 @@ class Cache:
 
     def get_int(self, key: str) -> Optional[int]:
         return self.get(key, fn=int)
+
+
 def count_calls(method: Callable) -> Callable:
     import functools
 
@@ -41,6 +43,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
 
     return wrapper
+
 
 @count_calls
 def store(self, data):
