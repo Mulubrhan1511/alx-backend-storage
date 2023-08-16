@@ -6,9 +6,6 @@ from typing import Callable
 import redis
 import requests
 
-import requests
-import redis
-
 
 def get_page(url: str) -> str:
     """Get the HTML content of a URL.
@@ -22,14 +19,14 @@ def get_page(url: str) -> str:
 
     redis_client = redis.Redis()
 
-    key = "count:{url}".format(url=url)
+    key = "count:{url}".format(url=url.replace("/", "%2F"))
     count = redis_client.get(key)
     if count is None:
         count = 0
 
     redis_client.set(key, count + 1, ex=10)
 
-    cache_key = "page:{url}".format(url=url)
+    cache_key = "page:{url}".format(url=url.replace("/", "%2F"))
     cached_page = redis_client.get(cache_key)
     if cached_page is not None:
         return cached_page.decode("utf-8")
