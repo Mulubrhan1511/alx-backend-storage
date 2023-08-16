@@ -31,3 +31,19 @@ class Cache:
 
     def get_int(self, key: str) -> Optional[int]:
         return self.get(key, fn=int)
+def count_calls(method: Callable) -> Callable:
+    import functools
+
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = method.__qualname__
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+
+    return wrapper
+
+@count_calls
+def store(self, data):
+    key = str(uuid.uuid4())
+    self._redis.set(key, data)
+    return key
