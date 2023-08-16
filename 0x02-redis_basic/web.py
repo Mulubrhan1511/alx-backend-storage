@@ -9,6 +9,7 @@ import requests
 import requests
 import redis
 
+
 def get_page(url: str) -> str:
     """Get the HTML content of a URL.
 
@@ -37,6 +38,7 @@ def get_page(url: str) -> str:
     redis_client.set(cache_key, page, ex=10)
 
     return page
+
 
 if __name__ == "__main__":
     url = "http://slowwly.robertomurray.co.uk"
