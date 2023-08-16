@@ -4,7 +4,7 @@ Main file
 """
 import redis
 import uuid
-from typing import Union
+from typing import Callable, Optional, Union
 
 
 class Cache:
