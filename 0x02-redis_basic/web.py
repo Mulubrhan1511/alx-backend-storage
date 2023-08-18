@@ -6,7 +6,8 @@ import redis
 import requests
 from typing import Callable
 
-redis_ = redis.Redis
+redis_ = redis.Redis()
+
 
 def count_requests(method: Callable) -> Callable:
     """ Decortator for counting """
